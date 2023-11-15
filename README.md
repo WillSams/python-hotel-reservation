@@ -39,14 +39,12 @@ curl http://localhost:$API_PORT/development/api \
 
 **Table of Contents**:
 
-* [Usage](#usage)
 * [Prerequisites](#prerequisites)
 * [Getting Started](#getting-started)
     - [Install Python Packages](#install-python-packages)
     - [Install Node.js Packages](#install-nodejs-packages)
     - [Create the Database](#create-the-database)
 * [Development](#development)
-* [Debugging](#debugging)
 * [Testing](#testing)
 * [Troubleshooting](#troubleshooting)
     - [Docker Image](#docker-image)
@@ -65,16 +63,16 @@ The below are optional:
 
 * [nvm](https://github.com/nvm-sh/nvm) - Used to manage NodeJS versions.
 * [Direnv](https://direnv.net/) - Used to manage environment variables.
-* [Docker](https://www.docker.com/)  - We can containerize the hotel reservation handler:
+* [Docker](https://www.docker.com/)  - We can containerize the hotel reservation service:
     - Push the container to [Amazon Elastic Container Registry](https://aws.amazon.com/ecr/)
     - Once in ECR, serve the container as an [AWS Elastic Container service](https://aws.amazon.com/ecs/).
-    - We can then use the [Application Load Balancer](https://aws.amazon.com/elasticloadbalancing/application-load-balancer/) to distribute traffice across ECS tasks.
+    - We can then use the [Application Load Balancer](https://aws.amazon.com/elasticloadbalancing/application-load-balancer/) to distribute traffic across ECS tasks.
 
 ## Getting Started
 
 First, we'll need to set up our environment variables.  You can do this by either:
 
-* Manually exporting the necessary environment variables in your shell.  These are listed in the [`./envrc.example`](./_docs/envrc.example) file.
+* Manually exporting the necessary environment variables in your shell.  These are listed in the [`./envrc.example`](./envrc.example) file.
 
 or
 
