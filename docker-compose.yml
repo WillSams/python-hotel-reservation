@@ -1,0 +1,19 @@
+version: "3.2"
+services:
+  hotel-db:
+    image: postgres:14.2-alpine
+    container_name: hotel-db
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - hotel-db-data:/var/lib/postgresql/data
+      - ./docker/entrypoint.sh:/docker-entrypoint-initdb.d
+    command: ["postgres", "-c", "listen_addresses=*"]
+volumes:
+  hotel-db-data:
+networks:
+  hotel-network:

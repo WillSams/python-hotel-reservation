@@ -1,0 +1,16 @@
+export ENV=development
+export IS_DEBUG=1
+
+export API_PORT=8080
+export PLAYGROUND_PORT=8081
+
+export DB_CLIENT=postgresql+psycopg2
+
+export DB_USER=postgres
+export DB_PASSWD=postgres
+export DB_HOST=localhost
+export DB_PORT=15432
+export DB_NAME=hotel_$ENV
+export DB_URL=${DB_CLIENT}://${DB_USER}:${DB_PASSWD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+
+export SSL_ENABLED=False

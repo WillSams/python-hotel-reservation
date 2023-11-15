@@ -1,0 +1,57 @@
+name: Deploy to Elastic Container Service
+on:
+  workflow_dispatch:  # manual triggering
+
+env:
+  DEPLOYMENT_ENV: staging
+  REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+  IMAGE_NAME: example-python-hotel-reservation
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+
+    - name: Log in to the Container registry
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Login To ECR
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up QEMU dependency
+      uses: docker/setup-qemu-action@v1
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build and push image to ECR
+      env:
+        REMOTE_IMAGE: docker tag ${{ env.IMAGE_NAME }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $REMOTE_IMAGE:$IMAGE_TAG $REMOTE_IMAGE:latest .
+        echo "Pushing image to ECR..."
+        docker push $REMOTE_IMAGE:$IMAGE_TAG $REMOTE_IMAGE:latest
+
+    - name: Deploy to ECS
+      if: success()
+      env:
+        DEPLOYMENT_ENV: ${{ env.DEPLOYMENT_ENV }}
+        REGION: ${{ secrets.AWS_REGION }}
+      run: |
+        aws ecs update-service \
+          --cluster $DEPLOYMENT_ENV-example-cluster \
+          --service python-example-service \
+          --force-new-deployment \
+          --region $REGION

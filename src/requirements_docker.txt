@@ -1,0 +1,6 @@
+ariadne==0.21
+Flask==3.0.0
+markupsafe==2.1.3
+psycopg2-binary==2.9.9
+SQLAlchemy==2.0.23
+Werkzeug==3.0.1
