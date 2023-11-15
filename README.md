@@ -128,7 +128,7 @@ CREATE DATABASE hotel_test;
 exit # to exit the container's Bash shell
 ```
 
-Alternatively, you can just execute the `./create_db.sh` script to create the databse(s). 
+Alternatively, you can just execute the [./db/create_db.sh](./db/create_db.sh) script to create the databse(s). 
 
 Finally, let's create/seed our Reservations and Rooms tables
 
