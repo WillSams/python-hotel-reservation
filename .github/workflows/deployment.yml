@@ -37,7 +37,7 @@ jobs:
 
     - name: Build and push image to ECR
       env:
-        REMOTE_IMAGE: docker tag ${{ env.IMAGE_NAME }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        REMOTE_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
         docker build -t $REMOTE_IMAGE:$IMAGE_TAG $REMOTE_IMAGE:latest .
