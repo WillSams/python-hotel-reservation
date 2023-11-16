@@ -101,42 +101,18 @@ pip install -r requirements.txt
 Execute the following within your terminal:
 
 ```bash
- # To eliminate any issues, install/use the version listed in .nvmrc.  
- # If you need to install the listed version of Node, execute `nvm install <version-listed-in-.nvmrc>`
-nvm use            
-
-cd ./db
-npm i  # Install the packages needed for migrations/seeding, knex and pg
+nvm use             # To eliminate any issues, install/use the version listed in .nvmrc. 
+npm i               # install the packages needed for project 
 ```
 
 ### Create the database
 
-Execute the following within your terminal:
+Finally, let's create and seed the databases and our Reservations and Rooms tables:
 
 ```bash
-docker-compose up -d
-docker exec -it -u postgres hotel-db bash
-```
-
-Once the container's command prompt loads, execute `psql`.  Subsequenly in the Postgres shell, execute:
-
-```bash
-CREATE DATABASE hotel_development;
-CREATE DATABASE hotel_test;
-\q   # to quit the psql shell
-
-exit # to exit the container's Bash shell
-```
-
-Alternatively, you can just execute the [./db/create_db.sh](./db/create_db.sh) script to create the databse(s). 
-
-Finally, let's create/seed our Reservations and Rooms tables
-
-```bash
-cd db
-npm run refresh                   # hotels_development - this will drop tables, re-create them
-NODE_ENV=test npm run refresh     # hotels_test this will drop tables, re-create them
-npm run seed                      # This will only seed the tables in the hotels_development database
+# Create the databases and seed them
+NODE_ENV=development ./create_db.sh && npm run refresh
+NODE_ENV=test ./create_db.sh && npm run seed 
 ```
 
 ## Development
