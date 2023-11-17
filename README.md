@@ -111,8 +111,8 @@ Finally, let's create and seed the databases and our Reservations and Rooms tabl
 
 ```bash
 # Create the databases and seed them
-NODE_ENV=development ./create_db.sh && npm run refresh
-NODE_ENV=test ./create_db.sh && npm run seed 
+NODE_ENV=development | ./create_db.sh && npm run refresh
+NODE_ENV=test | ./create_db.sh && npm run refresh
 ```
 
 ## Development
