@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, Response, make_response
 
 from ariadne import (
     load_schema_from_path,
@@ -37,12 +37,12 @@ schema = make_executable_schema(
 
 
 @api_blueprint.route(f"/{utils.runtime_environment()}/api", methods=["POST"])
-def api_handler():
+def api_handler() -> Response:
     try:
         data = request.get_json()
     except Exception as e:
         utils.Logger.error(f"Error parsing JSON: {e}")
-        return jsonify({"error": "Invalid JSON"}), 400
+        return make_response(jsonify({"error": "Invalid JSON"}), 400)
 
     try:
         success, result = graphql_sync(
@@ -50,8 +50,8 @@ def api_handler():
         )
     except Exception as e:
         utils.Logger.error(f"GraphQL execution error: {e}")
-        return jsonify({"error": "Internal Server Error"}), 500
+        return make_response(jsonify({"error": "Internal Server Error"}), 500)
 
     status_code = 200 if success else 400
     utils.Logger.info(f"GraphQL response: {result}")
-    return jsonify(result), status_code
+    return make_response(jsonify(result), status_code)

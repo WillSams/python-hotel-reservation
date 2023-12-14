@@ -1,3 +1,6 @@
+from datetime import datetime
+from typing import Any, Dict, cast
+
 from api import DbSession
 from api.helpers import is_room_available
 from api.models import Reservation
@@ -5,15 +8,16 @@ from api.models import Reservation
 import api.utils as utils
 
 
-def create_reservation_resolver(obj, info, input: dict):
-    room_id = input.get("room_id")
-    checkin_date = input.get("checkin_date")
-    checkout_date = input.get("checkout_date")
-    total_charge = input.get("total_charge")
+def create_reservation_resolver(obj, info, input: dict) -> Dict[str, Any]:
+    room_id = cast(int, input.get("room_id"))
+    checkin_date = cast(datetime, input.get("checkin_date"))
+    checkout_date = cast(datetime, input.get("checkout_date"))
+    total_charge = cast(float, input.get("total_charge"))
 
     try:
         db = DbSession()
         available = is_room_available(room_id, checkin_date, checkout_date)
+
         if not available:
             message = "Reservation dates overlap with an existing reservation"
             utils.log_api_error(__name__, message)
