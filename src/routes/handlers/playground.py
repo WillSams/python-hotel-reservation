@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, Response, make_response
 from ariadne.explorer import ExplorerGraphiQL
 
 import api.utils as utils
@@ -11,5 +11,5 @@ explorer_html = ExplorerGraphiQL().html(None)
 @playground_blueprint.route(
     f"/{utils.runtime_environment()}/playground", methods=["GET"]
 )
-def playground_handler():
-    return explorer_html, 200
+def playground_handler() -> Response:
+    return make_response(explorer_html, 200)

@@ -1,4 +1,4 @@
-from flask import jsonify, make_response
+from flask import Response, jsonify, make_response
 
 import api.utils as utils
 
@@ -11,11 +11,11 @@ app = create_app(about_blueprint, api_blueprint, playground_blueprint)
 
 
 @app.errorhandler(404)
-def resource_not_found(e):
+def resource_not_found(e) -> Response:
     return make_response(jsonify(error="Not found!"), 404)
 
 
-def main():
+def main() -> None:
     if utils.is_debug():
         utils.setup_file_logger()
 
