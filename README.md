@@ -1,4 +1,4 @@
-# Python Example - Hotel Reservation Service
+# Python Flask Example - Hotel Reservation Service
 
 The **Hotel Reservation Service** example is a GraphQL API providing the ability to create and list reservations as well as the ability to list available rooms for a given date range.
 
